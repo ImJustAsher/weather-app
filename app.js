@@ -4,6 +4,8 @@ window.addEventListener('load', () => {
 	let temperatureDescription = document.querySelector('.temperature-description');
 	let temperatureDegree = document.querySelector('.temperature-degree');
 	let locationTimezone = document.querySelector('.location-timezone');
+	let temperatureSection = document.querySelector('.temperature');
+	const temperatureSpan = document.querySelector('.temperature span');
 
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition((position) => {
@@ -26,7 +28,18 @@ window.addEventListener('load', () => {
 					temperatureDescription.textContent = summary;
 					locationTimezone.textContent = data.timezone;
 					// set icon
+					let celsius = (temperature - 32) * (5 / 9);
 					setIcons(icon, document.querySelector('.icon'));
+
+					temperatureSection.addEventListener('click', () => {
+						if (temperatureSpan.textContent === 'F') {
+							temperatureSpan.textContent = 'C';
+							temperatureDegree.textContent = Math.floor(celsius);
+						} else {
+							temperatureSpan.textContent = 'F';
+							temperatureDegree.textContent = temperature;
+						}
+					});
 				});
 		});
 	}
